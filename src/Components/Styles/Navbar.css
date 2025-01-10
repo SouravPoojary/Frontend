@@ -1,0 +1,82 @@
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.nav-logo h2 {
+  margin: 0;
+}
+
+.register {
+  position: relative;
+}
+
+.dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown li:hover {
+  background-color: #555;
+}
+
+.content {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  background-color: #444;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.content li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.content li:hover {
+  background-color: #666;
+}
+
+.login {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.login li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.login li:hover {
+  background-color: #555;
+}
+
+.login-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container {
+  margin-top: 20px;
+}

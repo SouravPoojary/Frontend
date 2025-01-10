@@ -1,0 +1,15 @@
+.form{
+   
+    margin-left: 2%;
+    top: 30%;
+    left: 5%;
+    background-color:dimgrey;
+    width: 20%;
+    padding: 5%;
+    z-index: 2;
+    position: absolute;
+    border-radius: 10%;
+}
+.form label{
+    display: block;
+}
