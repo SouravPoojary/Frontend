@@ -29,6 +29,7 @@ const AddService = ({ onAddService }) => {
     }
   }
   return (
+
     <div className="form">
       <h2>Add Service</h2>
       <form onSubmit={handleSubmit}>
@@ -54,6 +55,9 @@ const AddService = ({ onAddService }) => {
         <button type='submit'>Add Service</button>
       </form>
     </div>
+    
+  
+
   );
 }
 export default AddService;
