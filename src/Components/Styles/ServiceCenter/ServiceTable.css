@@ -1,0 +1,15 @@
+.view-service{
+    padding: 0px;
+    margin-top: 10%;
+  word-spacing: 5%;
+    position: absolute;
+}
+.head{
+    background-color: aliceblue;
+    color: blue;
+    border: 5px;
+    border-color: black;
+}
+.body{
+    color: black;
+}

@@ -17,6 +17,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   width: 250px;
+  text-align: justify;
 }
 
 .login-form h2 {
@@ -26,18 +27,20 @@
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 5px;
+  color: black;
 }
 
 .form-group input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+ 
 }
 
 .submit-btn {
