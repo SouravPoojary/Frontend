@@ -1,76 +1,3 @@
-// import React, { useState } from "react";
-// import "./../Styles/Navbar.css";
-// import LoginForm from "./LoginForm";
-// // import '../modalScript';
-// import CustomerRegForm from "./CustomerRegForm";
-// import ServiceCenterRegForm from "./ServiceCenterRegForm";
-// import { type } from "@testing-library/user-event/dist/cjs/utility/type.js";
-
-// const Navbar = () => {
-//   const [showlogin, setShowlogin] = useState(false);
-
-//   const [formType, setFormType] = useState("");
-//   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-
-//   const toggleLogin = () => {
-//     setShowlogin(!showlogin);
-//   };
-
-//   const handleRegClick = () => {
-//     setIsDropDownOpen(!isDropDownOpen);
-//     if (isDropDownOpen) {
-//       setFormType("");
-//     }
-//   };
-
-//   const handleFormSelection = (type) => {
-//     setFormType(type);
-//     // setIsDropDownOpen(false)
-//   };
-//   const hideForm = () => {
-//     setFormType("");
-//   };
-
-//   return (
-//     <div className="navbar">
-//       <div className="nav-logo">
-//         <h2>VSM</h2>
-//       </div>
-//       <div className="register">
-//         <button className="drop" onClick={handleRegClick}>
-//           Register
-//         </button>
-//         {isDropDownOpen && (
-//           <div className="content">
-//             <a href="#" onClick={() => handleFormSelection("customer")}>
-//               Customer
-//             </a>
-//             <a href="#" onClick={() => handleFormSelection("serviceCenter")}>
-//               Service Center
-//             </a>
-//           </div>
-//         )}
-//       </div>
-
-//       <div className="form-container">
-//         {formType === "customer" && <CustomerRegForm hideForm={hideForm} />}
-//         {formType === "serviceCenter" && (
-//           <ServiceCenterRegForm hideForm={hideForm} />
-//         )}
-//       </div>
-
-//       {/* <div className='user-login'> */}
-//       <button className="login-button" onClick={toggleLogin}>
-//         {showlogin ? "Close" : "Login"}
-//       </button>
-//       {showlogin && <LoginForm />}
-//       {/* </div> */}
-//     </div>
-//   );
-// };
-// export default Navbar;
-
-
 import React, { useState } from "react";
 import "../Styles/Navbarsc.css";
 import LoginForm from "../Navbar/LoginForm";
@@ -81,6 +8,7 @@ const Navbar = () => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [formType, setFormType] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const handleRegClick = () => {
     setIsDropDownOpen(!isDropDownOpen);
@@ -89,6 +17,10 @@ const Navbar = () => {
   const handleFormSelection = (type) => {
     setFormType(type);
     setIsDropDownOpen(false);
+  };
+
+  const handleRegister = (user) => {
+    setUsers((prev) => [...prev, user]);
   };
 
   const hideForm = () => {
@@ -120,9 +52,14 @@ const Navbar = () => {
       </div>
 
       <div className="form-container">
-        {formType === "customer" && <CustomerRegForm hideForm={hideForm} />}
+        {formType === "customer" && (
+          <CustomerRegForm hideForm={hideForm} onRegister={handleRegister} />
+        )}
         {formType === "serviceCenter" && (
-          <ServiceCenterRegForm hideForm={hideForm} />
+          <ServiceCenterRegForm
+            hideForm={hideForm}
+            onRegister={handleRegister}
+          />
         )}
       </div>
 
@@ -130,7 +67,7 @@ const Navbar = () => {
         <a onClick={toggleLogin} className="login-button">
           {showLogin ? "Close" : "Login"}
         </a>
-        {showLogin && <LoginForm />}
+        {showLogin && <LoginForm users={users} hideForm={hideForm} />}
       </ul>
     </div>
   );

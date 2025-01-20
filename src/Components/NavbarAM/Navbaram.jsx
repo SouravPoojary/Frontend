@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { AddCategory } from "../NavbarCM/AddCategory";
-export const Navbaram = () => {
+import AddCategory from "../NavbarAM/AddCategory";
+  const Navbaram = () => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [addform, setAddForm] = useState(false);
 
@@ -49,3 +49,4 @@ export const Navbaram = () => {
     </div>
   );
 };
+export default Navbaram;

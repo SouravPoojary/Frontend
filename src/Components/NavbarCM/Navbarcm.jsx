@@ -23,7 +23,8 @@ const Navbarcm = () => {
         <button className="onclick" onClick={() => handleClick("appointment")}>
           Appointment
         </button>
-        {isDropDownOpen === "appointment" && <li>View Appointment</li>}
+        {isDropDownOpen === "appointment" && <li>Take Appointment</li>}
+        {isDropDownOpen==="appointment" && <li>View Appointment </li>}
       </ul>
       <ul  className="profile">
         <button className="onclick" onClick={() => handleClick("myprofile")}>

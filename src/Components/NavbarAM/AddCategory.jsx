@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const AddCategory = ({ handleForm }) => {
+ const AddCategory = ({ handleForm }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         handleForm();
@@ -18,3 +18,4 @@ export const AddCategory = ({ handleForm }) => {
     </div>
   )
 }
+export default AddCategory;
