@@ -1,0 +1,17 @@
+.profile-data{
+    position: absolute;
+    color: black;
+    padding: 10px;
+    top: 12%;
+   
+    left:6%;
+    
+   
+    
+}
+td{padding: 10px;
+    width: fit-content;
+}
+table{
+    width: auto;
+}

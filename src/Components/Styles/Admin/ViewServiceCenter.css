@@ -1,0 +1,58 @@
+.s-center-data {
+  position: fixed;
+  top: 60px; /* Adjust based on your navbar height */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px); /* Full height minus navbar */
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.s-center-data > div {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 80%;
+  max-width: 800px;
+}
+
+.s-center-data h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.s-center-data table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.s-center-data th,
+.s-center-data td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.s-center-data th {
+  background: #007bff;
+  color: white;
+}
+
+.s-center-data td {
+  background: #333; /* Dark background for contrast */
+  color: white; /* White text for readability */
+}
+
+.s-center-data tr:nth-child(even) td {
+  background: #444; /* Slightly lighter shade for alternating rows */
+}
+
+.s-center-data tr:hover td {
+  background: #555; /* Highlight on hover */
+}

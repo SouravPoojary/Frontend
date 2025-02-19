@@ -39,7 +39,7 @@ const Navbar = () => {
 
       <div className="register">
         <ul className="dropdown">
-          <a onClick={handleRegClick}>Register</a>
+          <li onClick={handleRegClick}>Register</li>
           {isDropDownOpen && (
             <ul className="content">
               <li onClick={() => handleFormSelection("customer")}>Customer</li>
@@ -64,9 +64,9 @@ const Navbar = () => {
       </div>
 
       <ul className="login">
-        <a onClick={toggleLogin} className="login-button">
+        <li onClick={toggleLogin} className="login-button">
           {showLogin ? "Close" : "Login"}
-        </a>
+        </li>
         {showLogin && <LoginForm users={users} hideForm={hideForm} />}
       </ul>
     </div>

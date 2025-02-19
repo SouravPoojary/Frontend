@@ -1,0 +1,54 @@
+.customer-data {
+  position: fixed;
+  top: 60px; /* Adjust based on your navbar height */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px); /* Full height minus navbar */
+  background: rgba(0, 0, 0, 0.7); /* Dark overlay effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.customer-data > div {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 60%;
+  max-width: 600px;
+}
+
+.customer-data h2 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #ecf40a;
+}
+
+.customer-data table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-data th, 
+.customer-data td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  color: rgb(245, 239, 242);
+}
+
+.customer-data th {
+  background: #007bff;
+  color: white;
+}
+
+/* .customer-data tr:nth-child(even) {
+  background: #b73e3e;
+} */
+/* 
+.customer-data tr:hover {
+  background: #e9ecef;
+} */

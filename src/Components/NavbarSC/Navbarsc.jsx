@@ -1,47 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../Styles/Navbarsc.css';
+import "../Styles/ServiceCenter/ProfileData.css";
 import AddService from "./AddService";
 import ViewService from "./ViewService";
+
+import { useNavigate } from "react-router-dom";
+import ViewAppointmentSC from "./ViewAppointmentSC";
 // import { type } from "@testing-library/user-event/dist/cjs/utility/type.js";
 
-const Navbarsc = () => {
+const Navbarsc = ({setServices}) => {
     const [isDropDownOpen, setIsDropDownOpen] = useState(null);
-    const[services,setServices]=useState([])
+  
+  const [services, setLocalServices] = useState([]);
+  const [userData,setUserData]=useState(null)
+  const navigate = useNavigate()
+
+    useEffect(() => {
+    const storedServices = JSON.parse(localStorage.getItem("services")) || [];
+      setLocalServices(storedServices);
+      
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (loggedInUser) {
+        setUserData(loggedInUser);
+      }
+  }, [navigate]);
+  
+
 
     const handleClick = (btnname) => {
    setIsDropDownOpen((prev)=>(prev===btnname?null:btnname))  
     }
 
-  const handleAddService = (service) => {
-      console.log("Services",service)
-    setServices((prev) => [...prev, service])
-    console.log("updated",services)
-    }
-    // const hideForm = () => {
-    //     setAddForm(null)
-    // }
+  // const handleAddService = (service) => {
+  //   // setServices((prev) => [...prev, service])
+  //   const storedServices=JSON.parse(localStorage.getItem("services")) || []
+  //   const updatedServices = [...storedServices, service];
+  //   localStorage.setItem("services", JSON.stringify(updatedServices));
+  //   setLocalServices(updatedServices);
+  //   setServices(updatedServices)
+    
+  // }
+
+  
+  const handleLogout = () => {
+    // localStorage.removeItem("services");
+    // setServices([])
+    navigate("/");
+  };
+
+  
   return (
     <nav className="navbar">
       <div className="navbar-logo">VSM</div>
-      {/* <ul className="navbar-links"> */}
+
       <div className="myservice">
-        {/* <ul className="service"> */}
         <button className="onclick" onClick={() => handleClick("btnservice")}>
           My Service
         </button>
         {isDropDownOpen === "btnservice" && (
-          <ul className='content'>
+          <ul className="content">
             <li onClick={() => setIsDropDownOpen("addservice")}>Add Service</li>
-            <li onClick={() => setIsDropDownOpen("viewservice")}>
-              View Service
-            </li>
+            <li onClick={() => setIsDropDownOpen("viewservice")}>View Service</li>
           </ul>
         )}
-        {/* </ul> */}
 
         {isDropDownOpen === "addservice" && (
           <div className="serviceadd">
-            <AddService onAddService={handleAddService} />
+            <AddService />
+            {/* onAddService={handleAddService}  */}
           </div>
         )}
 
@@ -55,24 +81,56 @@ const Navbarsc = () => {
         <button className="onclick" onClick={() => handleClick("appointment")}>
           Appointment
         </button>
-        {isDropDownOpen === "appointment" && <li>View Appointment</li>}
+        {isDropDownOpen === "appointment" && (
+          <li onClick={() => setIsDropDownOpen("viewappointment")}>
+            View Appointment{" "}
+          </li>
+        )}
+        {isDropDownOpen === "viewappointment" && (
+          <div>
+            <ViewAppointmentSC />
+          </div>
+        )}
       </ul>
       <ul className="profile">
         <button className="onclick" onClick={() => handleClick("myprofile")}>
           Profile
         </button>
-        {isDropDownOpen === "myprofile" && <li>View Profile</li>}
+        {isDropDownOpen === "myprofile" && userData && (
+          <div className="profile-data">
+            <h2>Profile Details</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                  <th>Shop Name</th>
+                  <th>Address</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{userData.fullname}</td>
+                  <td>{userData.email}</td>
+                  <td>{userData.contact}</td>
+                  <td>{userData.shopname}</td>
+                  <td>{userData.address}</td>
+                  <td>{userData.role}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </ul>
 
-      <button id="logout" className="onclick">
+      <button id="logout" className="onclick" onClick={handleLogout}>
         Logout
       </button>
-
-      {/* </ul> */}
     </nav>
   );
-};
+}
 
 export default Navbarsc;
-
 

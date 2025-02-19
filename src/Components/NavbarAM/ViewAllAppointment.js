@@ -1,32 +1,21 @@
 import React, { useEffect, useState } from "react";
-import JobDetailsTable from "./ViewJob";
-import "../Styles/Customer/ViewAppointment.css";
+import JobDetailsTable from "../NavbarCM/ViewJob";
 
-const ViewAppointment = ({ onClose }) => {
+
+const ViewAllAppointment = ({ onClose }) => {
   const [appointments, setAppointments] = useState([]);
-  const [selectedJobDetails, setSelectedJobDetails] = useState(null);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [selectedJobDetails, setSelectedJobDetails] = useState(null);
 
-  // Load appointments from localStorage
-  // useEffect(() => {
-  //   const storedAppointments =
-  //     JSON.parse(localStorage.getItem("appointments")) || [];
-  //   setAppointments(storedAppointments);
-  // }, []);
+
 
   useEffect(() => {
     const storedAppointments =
       JSON.parse(localStorage.getItem("appointments")) || [];
-    const loggedInUser =
-      JSON.parse(localStorage.getItem("loggedInUser")) || null;
+    setAppointments(storedAppointments)
 
-    if (loggedInUser) {
-      const userAppointments = storedAppointments.filter(
-        (appointment) => appointment.userId === loggedInUser.userId
-      );
-      setAppointments(userAppointments);
-    }
+    
   }, []);
-
 
   const handleDelete = (index) => {
     const updatedAppointments = appointments.filter((_, i) => i !== index);
@@ -34,10 +23,16 @@ const ViewAppointment = ({ onClose }) => {
     localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
   };
 
-  const handleViewJob = (index) => {
-    const jobDetails = appointments[index].jobDetails;
-    setSelectedJobDetails(jobDetails); // Set the job details to show the job table
-  };
+ 
+
+  
+    
+    const handleViewJob = (index) => {
+      const jobDetails = appointments[index].jobDetails;
+      setSelectedJobDetails(jobDetails); // Set the job details to show the job table
+    };
+
+ 
 
   return (
     <div className="appointment-container">
@@ -48,8 +43,11 @@ const ViewAppointment = ({ onClose }) => {
             <tr>
               <th>Service Name</th>
               <th>Service Category</th>
-              <th>Shopname</th>
               <th>Expert</th>
+              <th>Shopname</th>
+              <th>Customer Name</th>
+              <th>Customer Contact</th>
+              <th>Description</th>
               <th>Vehicle Name</th>
               <th>Registration No.</th>
               <th>Date</th>
@@ -66,18 +64,21 @@ const ViewAppointment = ({ onClose }) => {
               <tr key={index}>
                 <td>{appointment.serviceName}</td>
                 <td>{appointment.serviceCategory}</td>
-                <td>{appointment.shopname}</td>
                 <td>{appointment.fullname}</td>
+                <td>{appointment.shopname}</td>
+                <td>{appointment.custname}</td>
+                <td>{appointment.custno} </td>
+                <td>{appointment.serviceDescription}</td>
                 <td>{appointment.vehicleName}</td>
                 <td>{appointment.regNo}</td>
                 <td>{appointment.date}</td>
                 <td>{appointment.time}</td>
                 <td>{appointment.notes}</td>
-                <td>{appointment.status || "Pending"} </td>
+                <td>{appointment.status}</td>
                 <td>{appointment.jobDetails?.amount || "—"}</td>
                 <td>
                   <button
-                    className="view-job-btn"
+                    className="view-job"
                     onClick={() => handleViewJob(index)}
                   >
                     View Job
@@ -100,7 +101,15 @@ const ViewAppointment = ({ onClose }) => {
       )}
       {selectedJobDetails && (
         <JobDetailsTable jobDetails={selectedJobDetails} />
-      )}
+          )}
+          
+      {/* {editingIndex !== null && (
+         <JobForm
+           onSave={handleSaveJob}
+          onCancel={() => setEditingIndex(null)}
+        /> 
+      )} */}
+
       <button className="close-btn" onClick={onClose}>
         Close
       </button>
@@ -108,4 +117,4 @@ const ViewAppointment = ({ onClose }) => {
   );
 };
 
-export default ViewAppointment;
+export default ViewAllAppointment;

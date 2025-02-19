@@ -1,27 +1,32 @@
- import "./App.css";
+import "./App.css";
+
 import React from "react";
-// import Navbarsc from "./Components/NavbarSC/Navbarsc";
-//  import  Navbar  from './Components/Navbar/Navbar'
-// import Navbaram from './Components/NavbarAM/Navbaram'
-import Navbarcm from './Components/NavbarCM/Navbarcm'
-// import { Route,  Routes } from "react-router-dom";
+import Navbar from "./Components/Navbar/Navbar"
+import AdminPage from "./Pages/AdminPage"
+import CustomerPage from "./Pages/CustomerPage";
+import ServiceCenterPage from "./Pages/ServiceCenterPage"
+import { BrowserRouter , Routes, Route } from "react-router-dom";
+import { HomePage } from "./Pages/HomePage";
+// import BodyDesign from "./Components/Bodydesign/BodyDesign";
+
+
+
 const App=()=> {
   return (
-    <div>
-      {/* <Navbarsc /> */}
-      {/* <BrowserRouter> */}
-        {/* <Navbar /> */}
-        {/* <Routes>
-          <Route path="/admin" element={<Navbaram />} />
-          <Route path="/customer" element={<Navbarcm />} />
-          <Route path="/service-center" element={<Navbarsc/>}/>
-        </Routes> */}
-      {/* </BrowserRouter> */}
+  
+     
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage/>}></Route>
+          <Route path="/admin" element={ <AdminPage /> } />
+          <Route path="/customer" element={<CustomerPage />} />
+        <Route path="/service-center" element={<ServiceCenterPage />}/>
+        </Routes>
+      </BrowserRouter>
 
-      <Navbarcm/>
-      {/* <Navbaram/> */}
-     </div>
+   
   );
 }
 
 export default App;
+

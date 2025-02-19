@@ -1,0 +1,44 @@
+.appointment-container {
+  position: absolute;
+  top: 40%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  background: rgb(230, 108, 108);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width:auto;
+  max-width: 800px;
+}
+
+.appointment-table {
+  width: 100%;
+  max-width: 200px;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.appointment-table th, .appointment-table td {
+  border: 1px solid;
+  padding: 8px;
+  text-align: left;
+  color:black;
+}
+
+.appointment-table th {
+  background-color: #8311e7;
+}
+
+.close-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  background: #ff4d4d;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: #cc0000;
+}
