@@ -10,7 +10,7 @@ const ServiceCard = ({ service, userData, onAppointmentSubmit }) => {
   useEffect(() => {
     const loggedInUser =
       JSON.parse(localStorage.getItem("loggedInUser")) || null;
-   
+
     if (loggedInUser) {
       setUser(loggedInUser);
     }
@@ -45,24 +45,24 @@ const ServiceCard = ({ service, userData, onAppointmentSubmit }) => {
       </p>
 
       {/* {userData ? ( */}
-        {/* <> */}
-          <p>
-            <strong>Shop Name:</strong>
-            {service.shopname}
-          </p>
-          <p>
-            <strong>Expert:</strong>
-            {service.fullname}
-          </p>
-          <p>
-            <strong>Address:</strong>
-            {service.address || "Not Available"}
-          </p>
-          <p>
-            <strong>Contact:</strong>
-            {service.contact}
-          </p>
-        
+      {/* <> */}
+      <p>
+        <strong>Shop Name:</strong>
+        {service.shopname}
+      </p>
+      <p>
+        <strong>Expert:</strong>
+        {service.fullname}
+      </p>
+      <p>
+        <strong>Address:</strong>
+        {service.address || "Not Available"}
+      </p>
+      <p>
+        <strong>Contact:</strong>
+        {service.contact}
+      </p>
+
       <button className="appointment-btn" onClick={handleAppointmentClick}>
         Book Appointment
       </button>
