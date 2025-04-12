@@ -1,0 +1,40 @@
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    color: white;
+    padding: 50px;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.highlight {
+    color: orange;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 10px 0;
+}
+
+.subtext {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.cta {
+    background: orange;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.hero-image img {
+    width: 400px;
+}

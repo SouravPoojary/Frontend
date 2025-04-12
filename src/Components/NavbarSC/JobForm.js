@@ -4,7 +4,7 @@ const JobForm = ({ onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     jobName: "",
     description: "",
-    amount: "",
+    amount: null,
   });
 
   const handleChange = (e) => {

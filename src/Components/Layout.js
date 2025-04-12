@@ -4,8 +4,6 @@ import React from 'react'
   return (
     <div>
       <header>{navbar} </header>
-  <h1>Body</h1>
-          <p>Welcome</p>
           <main> {children} </main>
 
       <footer className="bg-gray-800 text-white text-center py-4 mt-4">

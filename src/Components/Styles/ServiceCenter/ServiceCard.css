@@ -1,4 +1,4 @@
-.service-container {
+/* .service-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -28,4 +28,90 @@
 .service-card p {
   font-size: 14px;
   margin: 5px 0;
+} */
+.service-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    justify-content: center;
+    z-index: auto;
+    position: relative;
+}
+
+.service-card {
+    display: flex;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 650px;
+    transition: transform 0.3s ease-in-out;
+    margin: 20px ;
+    z-index: auto;
+    position: relative;
+}
+
+.service-card:hover {
+    transform: scale(1.03);
+}
+
+.service-image img {
+    width: 180px;
+    height: 140px;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.service-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.service-content h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.description {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.service-info p, .service-center-info p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.category {
+    color: orange;
+    font-weight: bold;
+}
+
+.delivery-time {
+    color: red;
+    font-weight: bold;
+}
+
+.price {
+    color: red;
+    font-weight: bold;
+}
+
+.appointment-btn {
+    background: orange;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.appointment-btn:hover {
+    background: darkorange;
 }

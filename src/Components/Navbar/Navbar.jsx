@@ -34,41 +34,48 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="nav-logo">
-        <h2>VSM</h2>
+        <h2 onClick={hideForm}>🔧 VSM</h2>
       </div>
 
-      <div className="register">
-        <ul className="dropdown">
-          <li onClick={handleRegClick}>Register</li>
-          {isDropDownOpen && (
-            <ul className="content">
-              <li onClick={() => handleFormSelection("customer")}>Customer</li>
-              <li onClick={() => handleFormSelection("serviceCenter")}>
-                Service Center
-              </li>
-            </ul>
-          )}
-        </ul>
-      </div>
-
-      <div className="form-container">
-        {formType === "customer" && (
-          <CustomerRegForm hideForm={hideForm} onRegister={handleRegister} />
+      <div className="nav-section">
+        <button onClick={handleRegClick}>Register</button>
+        {isDropDownOpen && (
+          <ul className="dropdown">
+            <li onClick={() => handleFormSelection("customer")}>Customer</li>
+            <li onClick={() => handleFormSelection("serviceCenter")}>
+              Service Center
+            </li>
+          </ul>
         )}
-        {formType === "serviceCenter" && (
+      </div>
+
+     
+      {formType === "customer" && (
+        <div className="form-content">
+          <CustomerRegForm hideForm={hideForm} onRegister={handleRegister} />
+        </div>
+
+        )}
+      {formType === "serviceCenter" && (
+        <div className="form-content">
           <ServiceCenterRegForm
             hideForm={hideForm}
             onRegister={handleRegister}
           />
+          </div>
         )}
-      </div>
-
-      <ul className="login">
-        <li onClick={toggleLogin} className="login-button">
-          {showLogin ? "Close" : "Login"}
-        </li>
-        {showLogin && <LoginForm users={users} hideForm={hideForm} />}
-      </ul>
+      
+ <div className="nav-section">
+        <button onClick={toggleLogin} >
+          {showLogin ? "Close Login" : "Login"}
+      </button>
+    </div>
+    
+        
+    {showLogin &&( <div className="form-content">
+    <LoginForm users={users} hideForm={hideForm} />
+  </div>)
+  }
     </div>
   );
 };

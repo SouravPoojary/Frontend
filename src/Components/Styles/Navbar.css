@@ -1,132 +1,101 @@
-
-
-
+/* Navbar Container */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #333;
+  justify-content: space-between;
+  background-color: #1f2937; /* slate-800 */
+  padding: 1rem 2rem;
   color: white;
-}
-
-.nav-logo h2 {
-  margin: 0;
-}
-
-.register {
+  flex-wrap: wrap;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   position: relative;
 }
 
+/* Logo */
+.nav-logo h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fbbf24; /* amber-400 */
+  cursor: pointer;
+}
+
+/* Section Buttons */
+.nav-section {
+  margin: 0 1rem;
+  position: relative;
+}
+
+.nav-section button {
+  background: #374151;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.nav-section button:hover {
+  background: #4b5563;
+}
+
+/* Dropdown List */
 .dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #f3f4f6;
+  color: #111827;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  border-radius: 12px;
+  padding: 0.5rem 0;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  min-width: 180px;
+  z-index: 100;
 }
 
 .dropdown li {
-  padding: 10px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
 .dropdown li:hover {
-  background-color: #555;
+  background-color: #e5e7eb;
 }
 
-.content {
-  list-style: none;
-  padding: 0;
-  margin-top: 10px;
-  background-color: #444;
+/* Form Container */
+.form-content {
   position: absolute;
-  top: 30px;
-  left: 0;
-  border-radius: 5px;
-  z-index: 10;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-top: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  z-index: 200;
 }
 
-.content li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.content li:hover {
-  background-color: #666;
-}
-
+/* Login List (similar styling) */
 .login {
   list-style: none;
-  padding: 0;
   margin: 0;
-}
-
-.login li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.login li:hover {
-  background-color: #555;
+  padding: 0;
 }
 
 .login-button {
-  background-color: #007bff;
+  background-color: #10b981; /* green-500 */
   color: white;
-  padding: 10px 15px;
-  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.form-container {
-  margin-top: 20px;
-}
-
-.bg-image{
-  background-image: url();
-  background-size: cover;
-  background-position: center;
-  display: flex;
-}
-
-.albums-section {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
-.album {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  text-align: center;
-  padding: 20px;
-  width: 30%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.album:hover {
-  transform: scale(1.05);
-}
-
-.album h3 {
-  margin-top: 0;
-}
-
-.album p {
-  color: #666;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .albums-section {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .album {
-    width: 80%;
-    margin-bottom: 20px;
-  }
+.login-button:hover {
+  background-color: #059669;
 }

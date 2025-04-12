@@ -1,38 +1,46 @@
 import React, { useEffect, useState } from "react";
 import JobDetailsTable from "./ViewJob";
 import "../Styles/Customer/ViewAppointment.css";
+import axios from "axios";
 
 const ViewAppointment = ({ onClose }) => {
   const [appointments, setAppointments] = useState([]);
   const [selectedJobDetails, setSelectedJobDetails] = useState(null);
 
-  // Load appointments from localStorage
-  // useEffect(() => {
-  //   const storedAppointments =
-  //     JSON.parse(localStorage.getItem("appointments")) || [];
-  //   setAppointments(storedAppointments);
-  // }, []);
-
-  useEffect(() => {
-    const storedAppointments =
-      JSON.parse(localStorage.getItem("appointments")) || [];
+  useEffect(() => async () => {
+    
+    const storedAppointments = await axios.get(
+      "http://localhost:8080/appointment/getAll"
+    );
+    const storedappntmnt = Object.values(storedAppointments.data)
+    // JSON.parse(localStorage.getItem("appointments")) || [];
     const loggedInUser =
       JSON.parse(localStorage.getItem("loggedInUser")) || null;
 
     if (loggedInUser) {
-      const userAppointments = storedAppointments.filter(
-        (appointment) => appointment.userId === loggedInUser.userId
+      const userAppointments = storedappntmnt.filter(
+        (appointment) => appointment.customerId?.id === loggedInUser.id
       );
       setAppointments(userAppointments);
+      console.log("app", userAppointments)
     }
   }, []);
 
 
-  const handleDelete = (index) => {
-    const updatedAppointments = appointments.filter((_, i) => i !== index);
-    setAppointments(updatedAppointments);
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+  const handleDelete = async (id) => {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    await axios.delete(`http://localhost:8080/appointment/delete/${id}`, {
+      headers: { userId: loggedInUser.id },
+    })
+    const response = await axios.get(
+      "http://localhost:8080/appointment/getAll"
+    );
+    setAppointments(response.data);
+    //  const updatedAppointments = appointments.filter((_, i) => i !== id);
+    //  setAppointments(updatedAppointments);
+    // localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
   };
+
 
   const handleViewJob = (index) => {
     const jobDetails = appointments[index].jobDetails;
@@ -64,15 +72,15 @@ const ViewAppointment = ({ onClose }) => {
           <tbody>
             {appointments.map((appointment, index) => (
               <tr key={index}>
-                <td>{appointment.serviceName}</td>
-                <td>{appointment.serviceCategory}</td>
-                <td>{appointment.shopname}</td>
-                <td>{appointment.fullname}</td>
+                <td>{appointment.serviceId.serviceName}</td>
+                <td>{appointment.serviceId.category}</td>
+                <td>{appointment.serviceId.serviceCenterId.shopname}</td>
+                <td>{appointment.serviceId.serviceCenterId.fullname}</td>
                 <td>{appointment.vehicleName}</td>
                 <td>{appointment.regNo}</td>
-                <td>{appointment.date}</td>
-                <td>{appointment.time}</td>
-                <td>{appointment.notes}</td>
+                <td>{appointment.appointmentDate}</td>
+                <td>{appointment.appointmentTime}</td>
+                <td>{appointment.description}</td>
                 <td>{appointment.status || "Pending"} </td>
                 <td>{appointment.jobDetails?.amount || "—"}</td>
                 <td>
@@ -86,7 +94,7 @@ const ViewAppointment = ({ onClose }) => {
                 <td>
                   <button
                     className="delete"
-                    onClick={() => handleDelete(index)}
+                    onClick={() => handleDelete(appointment.id)}
                   >
                     Delete
                   </button>

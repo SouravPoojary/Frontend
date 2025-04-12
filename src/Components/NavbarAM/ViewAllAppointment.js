@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
 import JobDetailsTable from "../NavbarCM/ViewJob";
-
+import "../Styles/Customer/ViewAppointment.css";
+import axios from "axios";
 
 const ViewAllAppointment = ({ onClose }) => {
   const [appointments, setAppointments] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
     const [selectedJobDetails, setSelectedJobDetails] = useState(null);
 
+  useEffect(
+    () => async () => {
+      const storedAppointments = await axios.get(
+        "http://localhost:8080/appointment/getAll"
+      );
+      const storedappntmnt = Object.values(storedAppointments.data);
+      // JSON.parse(localStorage.getItem("appointments")) || [];
+      const loggedInUser =
+        JSON.parse(localStorage.getItem("loggedInUser")) || null;
 
+      if (loggedInUser[0].role==="ADMIN") {
+        // const userAppointments = storedappntmnt.filter(
+        //   (appointment) => appointment.customerId?.id === loggedInUser.id
+        // );
+        setAppointments(storedappntmnt);
+        console.log("app", storedappntmnt);
+      }
+    },
+    []
+  );
 
-  useEffect(() => {
-    const storedAppointments =
-      JSON.parse(localStorage.getItem("appointments")) || [];
-    setAppointments(storedAppointments)
+  const handleDelete = async (id) => {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    await axios.delete(`http://localhost:8080/appointment/delete/${id}`, {
+      headers: {
+        userId: loggedInUser[0].id,
+        role:loggedInUser[0].role,
+       },
+    });
+    const response = await axios.get("http://localhost:8080/appointment/getAll");
+    setAppointments(response.data);
+  }
 
-    
-  }, []);
-
-  const handleDelete = (index) => {
-    const updatedAppointments = appointments.filter((_, i) => i !== index);
-    setAppointments(updatedAppointments);
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
-  };
-
- 
-
-  
-    
     const handleViewJob = (index) => {
       const jobDetails = appointments[index].jobDetails;
       setSelectedJobDetails(jobDetails); // Set the job details to show the job table
     };
-
- 
 
   return (
     <div className="appointment-container">
@@ -62,18 +74,18 @@ const ViewAllAppointment = ({ onClose }) => {
           <tbody>
             {appointments.map((appointment, index) => (
               <tr key={index}>
-                <td>{appointment.serviceName}</td>
-                <td>{appointment.serviceCategory}</td>
-                <td>{appointment.fullname}</td>
-                <td>{appointment.shopname}</td>
-                <td>{appointment.custname}</td>
-                <td>{appointment.custno} </td>
-                <td>{appointment.serviceDescription}</td>
+                <td>{appointment.serviceId.serviceName}</td>
+                <td>{appointment.serviceId.category}</td>
+                <td>{appointment.serviceId.serviceCenterId.fullname}</td>
+                <td>{appointment.serviceId.serviceCenterId.shopname}</td>
+                <td>{appointment.customerId.fullname}</td>
+                <td>{appointment.customerId.contact} </td>
+                <td>{appointment.serviceId.description}</td>
                 <td>{appointment.vehicleName}</td>
                 <td>{appointment.regNo}</td>
-                <td>{appointment.date}</td>
-                <td>{appointment.time}</td>
-                <td>{appointment.notes}</td>
+                <td>{appointment.appointmentDate}</td>
+                <td>{appointment.appointmentTime}</td>
+                <td>{appointment.description}</td>
                 <td>{appointment.status}</td>
                 <td>{appointment.jobDetails?.amount || "—"}</td>
                 <td>
@@ -87,7 +99,7 @@ const ViewAllAppointment = ({ onClose }) => {
                 <td>
                   <button
                     className="delete"
-                    onClick={() => handleDelete(index)}
+                    onClick={() => handleDelete(appointment.id)}
                   >
                     Delete
                   </button>
@@ -101,14 +113,7 @@ const ViewAllAppointment = ({ onClose }) => {
       )}
       {selectedJobDetails && (
         <JobDetailsTable jobDetails={selectedJobDetails} />
-          )}
-          
-      {/* {editingIndex !== null && (
-         <JobForm
-           onSave={handleSaveJob}
-          onCancel={() => setEditingIndex(null)}
-        /> 
-      )} */}
+      )}
 
       <button className="close-btn" onClick={onClose}>
         Close

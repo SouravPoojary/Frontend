@@ -1,6 +1,7 @@
 import React from 'react'
 import "../Styles/Forms.css"
 import { useState } from 'react'
+import axios from 'axios';
 
 const ServiceCenterRegForm = ( {onRegister,hideForm}) => {
   const [formData, setFormData] = useState({
@@ -10,56 +11,91 @@ const ServiceCenterRegForm = ( {onRegister,hideForm}) => {
     contact: "",
     shopname: "",
     address: "",
-    role: "service center",
-    serviceCenterId:null,
+    role:"SERVICE_CENTER",
+    // serviceCenterId: null,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev)=>({ ...prev, [id]: value }));
   }
 
-        const handleSubmit = (event) => {
-          event.preventDefault();
-          hideForm();
-          const existingUser = JSON.parse(localStorage.getItem("users")) || [];
+        // const handleSubmit = (event) => {
+        //   event.preventDefault();
+        //   hideForm();
+        //   const existingUser = JSON.parse(localStorage.getItem("users")) || [];
 
-          let lastUserId = 0;
-          if (existingUser.length > 0) {
-            const lastUser = existingUser[existingUser.length - 1];
-            lastUserId = Number(lastUser?.serviceCenterId) || 0; // Ensure it's a number
-          }
+        //   let lastUserId = 0;
+        //   if (existingUser.length > 0) {
+        //     const lastUser = existingUser[existingUser.length - 1];
+        //     lastUserId = Number(lastUser?.serviceCenterId) || 0; // Ensure it's a number
+        //   }
 
-          const newUserId = lastUserId + 1; // Increment user ID
-          // console.log("New User ID:", newUserId); // Debugging
-
-
-          // const newUserId = existingUser.length
-          //   ? Number(existingUser[existingUser.length - 1].serviceCenterId) + 1
-          //   : 1;
+        //   const newUserId = lastUserId + 1; // Increment user ID
           
-          const updatedUser = { ...formData, serviceCenterId: newUserId }; // Assign userId
-          const newUsersList = [...existingUser, updatedUser];
-          localStorage.setItem("users", JSON.stringify(newUsersList));
+          
+        //   const updatedUser = { ...formData, serviceCenterId: newUserId }; // Assign userId
+        //   const newUsersList = [...existingUser, updatedUser];
+        //   localStorage.setItem("users", JSON.stringify(newUsersList));
 
-          onRegister(updatedUser);
+        //   onRegister(updatedUser);
 
-          // const updatedUser = [...existingUser, formData]
+       const handleSubmit = async (event) => {
+         event.preventDefault();
+         event.stopPropagation();
 
-          // localStorage.setItem("users", JSON.stringify(updatedUser))
+         // Prevent multiple submissions
+         if (isSubmitting) return;
 
-          // onRegister(formData);
-          setFormData({
-            fullname: "",
-            email: "",
-            password: "",
-            contact: "",
-            shopname: "",
-            address: "",
-            role: "service center",
-            serviceCenterId: null,
-          });
-          alert("Service Center Registration Successful");
-        };
+         setIsSubmitting(true);
+
+         try {
+           const response = await axios.post(
+             "http://localhost:8080/scenter/create",
+             formData
+           );
+           console.log("User saved:", response.data);
+           //  onRegister(response.data);
+
+          //             const existingUser = JSON.parse(localStorage.getItem("users")) || [];
+
+          //             let lastUserId = 0;
+          //  if (existingUser.length > 0) {
+          //    const lastUser = existingUser[existingUser.length - 1];
+          //    lastUserId = Number(lastUser?.serviceCenterId) || 0; // Ensure it's a number
+          //  }
+
+          //  const newUserId = lastUserId + 1; // Increment user ID
+
+          //  const updatedUser = { ...formData, serviceCenterId: newUserId }; // Assign userId
+          //  const newUsersList = [...existingUser, updatedUser];
+           localStorage.setItem("users", JSON.stringify(formData));
+
+            // onRegister(updatedUser);
+           hideForm();
+
+           setFormData({
+             fullname: "",
+             email: "",
+             password: "",
+             contact: "",
+             shopname: "",
+             address: "",
+             role: "SERVICE_CENTER",
+           });
+           //  const { id } = response.data;
+           //  onRegister(id);
+
+           // Call onRegister with database response
+           //  onRegister(response.data);
+         } catch (error) {
+           console.error("Error saving user:", error);
+         } finally {
+           setIsSubmitting(false);
+         }
+
+         alert("Service Center Registration Successful");
+       };
   
      
    return (
@@ -116,7 +152,7 @@ required
            onChange={handleChange}
            required
          />
-         <button type="submit" >Register</button>
+         <button type='submit' disabled={isSubmitting} >Register</button>
        </form>
      </div>
    );

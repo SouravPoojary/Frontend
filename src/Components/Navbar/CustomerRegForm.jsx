@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 const CustomerRegForm = ({ hideForm,onRegister}) => {
@@ -7,48 +8,58 @@ const CustomerRegForm = ({ hideForm,onRegister}) => {
     password: '', 
     contact: '',
     address:'',
-    role: 'customer',
-    userId:null,
+    role: 'CUSTOMER',
+    // userId:null,
   })
-    const handleSubmit = (event) => {
-        event.preventDefault();
-      hideForm();
-      const existingUser = JSON.parse(localStorage.getItem("users")) || [];
-     
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //   hideForm();
+    //   // const existingUser = JSON.parse(localStorage.getItem("users")) || [];
+    //  const existingUser = axios.get("http://localhost:8080/customer/getAll");
       
-          let lastUserId = 0;
-          if (existingUser.length > 0) {
-            const lastUser = existingUser[existingUser.length - 1];
-            lastUserId = Number(lastUser?.userId) || 0; // Ensure it's a number
-          }
+    //       let lastUserId = 0;
+    //       if (existingUser.length > 0) {
+    //         const lastUser = existingUser[existingUser.length - 1];
+    //         lastUserId = Number(lastUser?.userId) || 0; // Ensure it's a number
+    //       }
 
-          const newUserId = lastUserId + 1; // Increment user ID
-      console.log("New User ID:", newUserId);
+    //       const newUserId = lastUserId + 1; // Increment user ID
+    //   console.log("New User ID:", newUserId);
       
-      // const newUserId = existingUser.length
-      //   ? existingUser[existingUser.length - 1].userId + 1
-      //   : 1;
-       const updatedUser = { ...formData, userId: newUserId }; // Assign userId
-      const newUsersList = [...existingUser, updatedUser];
-      localStorage.setItem("users", JSON.stringify(newUsersList));
+    
+    //    const updatedUser = { ...formData, userId: newUserId }; // Assign userId
+    //   const newUsersList = [...existingUser, updatedUser];
 
-      onRegister(updatedUser);
+    //   localStorage.setItem("users", JSON.stringify(newUsersList));
 
-      // const updatedUser = [...existingUser, formData];
-      // localStorage.setItem("users", JSON.stringify(updatedUser));
-      
-      // onRegister(formData);
-      setFormData({
-        fullname: "",
-        email: "",
-        password: "",
-        contact: "",
-        address: "",
-        role: "customer",
-        userId:null,
-      });
-      alert('Registration successful')
+  //   onRegister(updatedUser);
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  hideForm();
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/customer/create",formData);
+    console.log("User saved:", response.data);
+
+    // Call onRegister with database response
+    onRegister(response.data);
+  } catch (error) {
+    console.error("Error saving user:", error);
   }
+
+  setFormData({
+    fullname: "",
+    email: "",
+    password: "",
+    contact: "",
+    address: "",
+    role: "CUSTOMER",
+    // userId: null,
+  });
+  alert("Registration successful");
+};
   
   const handleChange = (e) => {
     const { id, value } = e.target;

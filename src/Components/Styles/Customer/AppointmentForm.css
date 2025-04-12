@@ -1,4 +1,4 @@
-.appointment-modal {
+/* .appointment-modal {
   position: absolute;
   top: 0;
   left: 0;
@@ -52,4 +52,107 @@
 .form-buttons button:last-child {
   background-color: #dc3545;
   color: white;
+} */
+
+
+/* Modal Overlay */
+.appointment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Dark transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Box */
+.appointment-content {
+    background: #1e1e1e;
+    color: #fff;
+    padding: 25px;
+    width: 350px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Service Name */
+.service-name {
+    font-size: 18px;
+    color: #ff8c00;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Form Elements */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    text-align: left;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    background: #333;
+    color: white;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Buttons */
+.form-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-btn, .cancel-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn {
+    background: #ff8c00;
+    color: white;
+}
+
+.cancel-btn {
+    background: #444;
+    color: white;
+}
+
+.submit-btn:hover {
+    background: #e07b00;
+}
+
+.cancel-btn:hover {
+    background: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .appointment-content {
+        width: 90%;
+    }
 }

@@ -6,6 +6,7 @@ import ViewService from "./ViewService";
 
 import { useNavigate } from "react-router-dom";
 import ViewAppointmentSC from "./ViewAppointmentSC";
+import axios from "axios";
 // import { type } from "@testing-library/user-event/dist/cjs/utility/type.js";
 
 const Navbarsc = ({setServices}) => {
@@ -15,20 +16,29 @@ const Navbarsc = ({setServices}) => {
   const [userData,setUserData]=useState(null)
   const navigate = useNavigate()
 
-    useEffect(() => {
-    const storedServices = JSON.parse(localStorage.getItem("services")) || [];
-      setLocalServices(storedServices);
-      
-      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      if (loggedInUser) {
-        setUserData(loggedInUser);
-      }
-  }, [navigate]);
+    useEffect(
+      () => async () => {
+        const storedServices =
+          JSON.parse(localStorage.getItem("services")) || [];
+        setLocalServices(storedServices);
+
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        // const loggedInUser = await axios.get(
+        //   "http://localhost:8080/scenter/getByRole"
+        // );
+        // console.log("by role", loggedInUser.data);
+        if (loggedInUser) {
+          setUserData(loggedInUser);
+        }
+      },
+      [navigate]
+    );
   
 
 
     const handleClick = (btnname) => {
    setIsDropDownOpen((prev)=>(prev===btnname?null:btnname))  
+     console.log("userdata",userData)
     }
 
   // const handleAddService = (service) => {
@@ -53,51 +63,57 @@ const Navbarsc = ({setServices}) => {
     <nav className="navbar">
       <div className="navbar-logo">VSM</div>
 
-      <div className="myservice">
-        <button className="onclick" onClick={() => handleClick("btnservice")}>
+      <div className="nav-section">
+        <button className="nav-btn" onClick={() => handleClick("btnservice")}>
           My Service
         </button>
         {isDropDownOpen === "btnservice" && (
-          <ul className="content">
+          <ul className="dropdown-list">
             <li onClick={() => setIsDropDownOpen("addservice")}>Add Service</li>
-            <li onClick={() => setIsDropDownOpen("viewservice")}>View Service</li>
+            <li onClick={() => setIsDropDownOpen("viewservice")}>
+              View Service
+            </li>
           </ul>
         )}
 
         {isDropDownOpen === "addservice" && (
-          <div className="serviceadd">
-            <AddService />
+          <div className="dropdown-content">
+            <AddService serviceCenter={userData} />
             {/* onAddService={handleAddService}  */}
           </div>
         )}
 
         {isDropDownOpen === "viewservice" && (
-          <div className="serviceview">
-            <ViewService services={services} />
+          <div className="dropdown-content">
+            <ViewService />
           </div>
         )}
       </div>
-      <ul className="myappointment">
-        <button className="onclick" onClick={() => handleClick("appointment")}>
+
+      <div className="nav-section">
+        <button className="nav-btn" onClick={() => handleClick("appointment")}>
           Appointment
         </button>
         {isDropDownOpen === "appointment" && (
-          <li onClick={() => setIsDropDownOpen("viewappointment")}>
-            View Appointment{" "}
-          </li>
+          <ul className="dropdown-list">
+            <li onClick={() => setIsDropDownOpen("viewappointment")}>
+              View Appointment{" "}
+            </li>
+          </ul>
         )}
         {isDropDownOpen === "viewappointment" && (
-          <div>
+          <div className="dropdown-content">
             <ViewAppointmentSC />
           </div>
         )}
-      </ul>
-      <ul className="profile">
-        <button className="onclick" onClick={() => handleClick("myprofile")}>
+      </div>
+
+      <div className="nav-section">
+        <button className="nav-btn" onClick={() => handleClick("myprofile")}>
           Profile
         </button>
         {isDropDownOpen === "myprofile" && userData && (
-          <div className="profile-data">
+          <div className="dropdown-content profile-data">
             <h2>Profile Details</h2>
             <table>
               <thead>
@@ -123,9 +139,9 @@ const Navbarsc = ({setServices}) => {
             </table>
           </div>
         )}
-      </ul>
+      </div>
 
-      <button id="logout" className="onclick" onClick={handleLogout}>
+      <button id="logout" className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
     </nav>

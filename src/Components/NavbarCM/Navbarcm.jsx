@@ -34,23 +34,28 @@ const Navbarcm = () => {
       <div className="navbar-logo">VSM</div>
       {/* <ul className="navbar-links"> */}
 
-      <ul className="myappointment">
-        <button className="onclick" onClick={() => handleClick("appointment")}>
+      <ul className="nav-section">
+        <button className="nav-btn" onClick={() => handleClick("appointment")}>
           Appointment
         </button>
-  
-        {isDropDownOpen === "appointment" && <li onClick={()=> setIsDropDownOpen("viewappointment")}>View Appointment </li>}
-        {isDropDownOpen === "viewappointment" && 
-          <div>
+
+        {isDropDownOpen === "appointment" && (
+          <li onClick={() => setIsDropDownOpen("viewappointment")}>
+            View Appointment
+          </li>
+        )}
+        {isDropDownOpen === "viewappointment" && (
+          <div className="dropdown-content">
             <ViewAppointment />
-      </div>}
+          </div>
+        )}
       </ul>
-      <ul className="profile">
-        <button className="onclick" onClick={() => handleClick("myprofile")}>
+      <ul className="nav-section">
+        <button className="nav-btn" onClick={() => handleClick("myprofile")}>
           Profile
         </button>
         {isDropDownOpen === "myprofile" && userData && (
-          <div className="profile-data">
+          <div className="dropdown-content profile-data">
             <h2>Profile Details</h2>
             <table>
               <thead>
@@ -76,11 +81,9 @@ const Navbarcm = () => {
         )}
       </ul>
 
-      <button id="logout" className="onclick" onClick={handleLogout}>
+      <button id="logout" className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
-
-    
     </nav>
   );
 };
