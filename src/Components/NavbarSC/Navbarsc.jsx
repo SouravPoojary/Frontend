@@ -22,7 +22,7 @@ const Navbarsc = ({setServices}) => {
           JSON.parse(localStorage.getItem("services")) || [];
         setLocalServices(storedServices);
 
-        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
         // const loggedInUser = await axios.get(
         //   "http://localhost:8080/scenter/getByRole"
         // );

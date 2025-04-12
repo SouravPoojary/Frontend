@@ -2,6 +2,7 @@ import React from 'react'
 import "../Styles/Forms.css"
 import { useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ServiceCenterRegForm = ( {onRegister,hideForm}) => {
   const [formData, setFormData] = useState({
@@ -11,91 +12,85 @@ const ServiceCenterRegForm = ( {onRegister,hideForm}) => {
     contact: "",
     shopname: "",
     address: "",
-    role:"SERVICE_CENTER",
+    // role:"SERVICE_CENTER",
     // serviceCenterId: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev)=>({ ...prev, [id]: value }));
   }
 
-        // const handleSubmit = (event) => {
-        //   event.preventDefault();
-        //   hideForm();
-        //   const existingUser = JSON.parse(localStorage.getItem("users")) || [];
+        
 
-        //   let lastUserId = 0;
-        //   if (existingUser.length > 0) {
-        //     const lastUser = existingUser[existingUser.length - 1];
-        //     lastUserId = Number(lastUser?.serviceCenterId) || 0; // Ensure it's a number
-        //   }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    //  event.stopPropagation();
 
-        //   const newUserId = lastUserId + 1; // Increment user ID
+    // Prevent multiple submissions
+    //  if (isSubmitting) return;
+
+    //  setIsSubmitting(true);
+    //  setError("");
+         
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/auth/register/service-center",
+        formData
+      );
+      console.log("User saved:", response.data);
+      onRegister(response.data);
+      hideForm();
+      alert("Registration successful! Please login.");
+    } catch (error) {
+      console.error("Registration error:", error);
+      setError(error.response?.data?.message || 'Registration failed');
+    }
+  
+    // Auto-login after registration
+    //  const loginResponse = await axios.post(
+    //    "http://localhost:8080/auth/login",
+    //    {
+    //      email: formData.email,
+    //      password: formData.password,
+    //      role: "SERVICE_CENTER",
+    //    }
+    //  );
+    //  localStorage.setItem("jwtToken", loginResponse.data.token);
+    //  localStorage.setItem("userRole", "SERVICE_CENTER");
+    //  localStorage.setItem(
+    //    "userData",
+    //    JSON.stringify(loginResponse.data.user)
+    //  );
+    //  // onRegister(updatedUser);
+    //  hideForm();
+    //  onRegister(loginResponse.data.user);
+    //  navigate("/service-center");
+    //  alert("Service Center Registration and Login Successful");
+
+    setFormData({
+      fullname: "",
+      email: "",
+      password: "",
+      contact: "",
+      shopname: "",
+      address: "",
+      role: "SERVICE_CENTER",
+    });
+  }
           
-          
-        //   const updatedUser = { ...formData, serviceCenterId: newUserId }; // Assign userId
-        //   const newUsersList = [...existingUser, updatedUser];
-        //   localStorage.setItem("users", JSON.stringify(newUsersList));
+      //    } catch (error) {
+      //      console.error("Error saving user:", error);
+      //      setError(error.response?.data?.message || "Registration failed");
+      //    } finally {
+      //      setIsSubmitting(false);
+      //    }
 
-        //   onRegister(updatedUser);
-
-       const handleSubmit = async (event) => {
-         event.preventDefault();
-         event.stopPropagation();
-
-         // Prevent multiple submissions
-         if (isSubmitting) return;
-
-         setIsSubmitting(true);
-
-         try {
-           const response = await axios.post(
-             "http://localhost:8080/scenter/create",
-             formData
-           );
-           console.log("User saved:", response.data);
-           //  onRegister(response.data);
-
-          //             const existingUser = JSON.parse(localStorage.getItem("users")) || [];
-
-          //             let lastUserId = 0;
-          //  if (existingUser.length > 0) {
-          //    const lastUser = existingUser[existingUser.length - 1];
-          //    lastUserId = Number(lastUser?.serviceCenterId) || 0; // Ensure it's a number
-          //  }
-
-          //  const newUserId = lastUserId + 1; // Increment user ID
-
-          //  const updatedUser = { ...formData, serviceCenterId: newUserId }; // Assign userId
-          //  const newUsersList = [...existingUser, updatedUser];
-           localStorage.setItem("users", JSON.stringify(formData));
-
-            // onRegister(updatedUser);
-           hideForm();
-
-           setFormData({
-             fullname: "",
-             email: "",
-             password: "",
-             contact: "",
-             shopname: "",
-             address: "",
-             role: "SERVICE_CENTER",
-           });
-           //  const { id } = response.data;
-           //  onRegister(id);
-
-           // Call onRegister with database response
-           //  onRegister(response.data);
-         } catch (error) {
-           console.error("Error saving user:", error);
-         } finally {
-           setIsSubmitting(false);
-         }
-
-         alert("Service Center Registration Successful");
-       };
+      //   //  alert("Service Center Registration Successful");
+      //  };
   
      
    return (

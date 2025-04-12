@@ -3,26 +3,22 @@ import "./../Styles/LoginForm.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { em } from "@mantine/core";
+// import { login } from "../Authentication/AuthService";
+import { useAuth } from "../Authentication/AuthContext";
 
 const LoginForm = ({hideForm}) => {
   const [loginData, setLoginData] = useState({ email: '', password: '' ,role:''});
   const [errorMessage, setErrorMessage] = useState('');
-  const [userData,setUserData]=useState([])
-  const navigate = useNavigate()
+  const { login } = useAuth();
 
-  useEffect(() => {
-      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || [];
-      if (loggedInUser) {
-        setUserData(loggedInUser)
-      }
-    },[])
+  // useEffect(() => {
+  //     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")) || [];
+  //     if (loggedInUser) {
+  //       setUserData(loggedInUser)
+  //     }
+  //   },[])
   
-  // const adminCred = {
-  //   email: "admin@gmail.com",
-  //   password: "321",
-  //   role: "ADMIN",
-  //   userId:0,
-  // };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,66 +27,103 @@ const LoginForm = ({hideForm}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loginData.role === "ADMIN") {
-      const response = await axios.get("http://localhost:8080/admin/default");
-      const admin = Object.values(response.data);
-     
-      console.log("admin", admin);
-      
-
-      // if (admin.email === loginData.email &&
-      //   admin.password === loginData.password
-      // ) 
-      if(loginData.email===admin[0].email && loginData.password===admin[0].password)
-      {
-        alert("Login Successful as Admin");
-        setErrorMessage("");
-        hideForm();
-        localStorage.setItem("loggedInUser", JSON.stringify(admin));
-        navigate("/admin");
-      } else {
-        setErrorMessage("Invalid admin credentials");
-      }
+    setErrorMessage("");
+    
+    const result = await login(loginData.email, loginData.password)
+    console.log(result.data)
+    if (!result.success) {
+      setErrorMessage(result.message || "Login failed");
     } else {
-      //const users = JSON.parse(localStorage.getItem("users")) || [];
-      const users = await axios.get("http://localhost:8080/scenter/getAll");
-      const usern = Object.values(users.data);
-       console.log("user",users.data)
-      const user = usern.find(
-        (u) =>
-          u.role === loginData.role &&
-          u.email === loginData.email &&
-          u.password === loginData.password
-      );
-
-      if (!user) {
-        const roleExists = usern.some((u) => loginData.role===u.role);
-        if (!roleExists) {
-          setErrorMessage(`Invalid role selected: ${loginData.role}`);
-        } else {
-          setErrorMessage("Invalid username or password");
-        }
-      } else {
-        alert(`Login Successful as ${loginData.role}`);
-        setErrorMessage("");
-        hideForm();
-        localStorage.setItem("loggedInUser", JSON.stringify(user));
-
-        setUserData(user);
-
-        // if (loginData.role === "admin") {
-        //   navigate("/admin")
-
-        if (loginData.role === "CUSTOMER") {
-          navigate("/customer");
-        } else if (loginData.role === "SERVICE_CENTER") {
-          navigate("/service-center");
-        }
-      }
-
-      setLoginData({ email: "", password: "", role: "" });
+      hideForm();
     }
   }
+
+  //   try {
+  //     const { email, password, role } = loginData;
+  //     const response = await login(email, password, role);
+
+  //     alert(`Login Successful as ${role}`);
+  //     hideForm();
+
+  //     // Navigate based on role
+  //     switch (role) {
+  //       case "ADMIN":
+  //         navigate("/admin");
+  //         break;
+  //       case "CUSTOMER":
+  //         navigate("/customer");
+  //         break;
+  //       case "SERVICE_CENTER":
+  //         navigate("/service-center");
+  //         break;
+  //       default:
+  //         navigate("/");
+  //     }
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //     setErrorMessage(
+  //       error.response?.data?.message ||
+  //         "Invalid credentials. Please try again."
+  //     );
+  //   }
+  // };
+
+    // if (loginData.role === "ADMIN") {
+    //   const response = await axios.get("http://localhost:8080/admin/default");
+    //   const admin = Object.values(response.data);
+     
+    //   console.log("admin", admin);
+      
+
+    
+    //   if(loginData.email===admin[0].email && loginData.password===admin[0].password)
+    //   {
+    //     alert("Login Successful as Admin");
+    //     setErrorMessage("");
+    //     hideForm();
+    //     localStorage.setItem("loggedInUser", JSON.stringify(admin));
+    //     navigate("/admin");
+    //   } else {
+    //     setErrorMessage("Invalid admin credentials");
+    //   }
+    // } else {
+     
+    //   const users = await axios.get("http://localhost:8080/customer/getAll");
+    //   const usern = Object.values(users.data);
+    //    console.log("user",users.data)
+    //   const user = usern.find(
+    //     (u) =>
+    //       u.role === loginData.role &&
+    //       u.email === loginData.email &&
+    //       u.password === loginData.password
+    //   );
+
+    //   if (!user) {
+    //     const roleExists = usern.some((u) => loginData.role===u.role);
+    //     if (!roleExists) {
+    //       setErrorMessage(`Invalid role selected: ${loginData.role}`);
+    //     } else {
+    //       setErrorMessage("Invalid username or password");
+    //     }
+    //   } else {
+    //     alert(`Login Successful as ${loginData.role}`);
+    //     setErrorMessage("");
+    //     hideForm();
+    //     localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+    //     setUserData(user);
+
+      
+    //     if (loginData.role === "CUSTOMER") {
+    //       navigate("/customer");
+    //     } else if (loginData.role === "SERVICE_CENTER") {
+    //       navigate("/service-center");
+    //     }
+    //   }
+
+    //   setLoginData({ email: "", password: "", role: "" });
+    // }
+  // }
   
   return (
     <div className="login-form">

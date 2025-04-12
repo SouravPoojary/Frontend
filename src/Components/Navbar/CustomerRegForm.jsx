@@ -1,52 +1,52 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const CustomerRegForm = ({ hideForm,onRegister}) => {
+   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     fullname:'',
     email: '',
     password: '', 
     contact: '',
     address:'',
-    role: 'CUSTOMER',
+    // role: 'CUSTOMER',
     // userId:null,
   })
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //   hideForm();
-    //   // const existingUser = JSON.parse(localStorage.getItem("users")) || [];
-    //  const existingUser = axios.get("http://localhost:8080/customer/getAll");
-      
-    //       let lastUserId = 0;
-    //       if (existingUser.length > 0) {
-    //         const lastUser = existingUser[existingUser.length - 1];
-    //         lastUserId = Number(lastUser?.userId) || 0; // Ensure it's a number
-    //       }
+  //  const navigate = useNavigate()
 
-    //       const newUserId = lastUserId + 1; // Increment user ID
-    //   console.log("New User ID:", newUserId);
-      
-    
-    //    const updatedUser = { ...formData, userId: newUserId }; // Assign userId
-    //   const newUsersList = [...existingUser, updatedUser];
-
-    //   localStorage.setItem("users", JSON.stringify(newUsersList));
-
-  //   onRegister(updatedUser);
+   
   
 const handleSubmit = async (event) => {
   event.preventDefault();
-  hideForm();
+ 
 
   try {
     const response = await axios.post(
-      "http://localhost:8080/customer/create",formData);
+      "http://localhost:8080/auth/register/customer",
+      formData
+    );
     console.log("User saved:", response.data);
+
+    // Auto-login after registration
+    // const loginResponse = await axios.post("http://localhost:8080/auth/login", {
+    //   email: formData.email,
+    //   password: formData.password,
+    //   role: "CUSTOMER",
+    // });
+
+    //  localStorage.setItem("jwtToken", loginResponse.data.token);
+    //  localStorage.setItem("userRole", "CUSTOMER");
+    //  localStorage.setItem("userData", JSON.stringify(loginResponse.data.user));
 
     // Call onRegister with database response
     onRegister(response.data);
+     hideForm();
+    // navigate("/customer")
+    alert("Registration successful! Please login.");
   } catch (error) {
-    console.error("Error saving user:", error);
+    console.error("Registration error:", error);
+    setError(error.response?.data?.message || 'Registration failed');
   }
 
   setFormData({
@@ -55,10 +55,10 @@ const handleSubmit = async (event) => {
     password: "",
     contact: "",
     address: "",
-    role: "CUSTOMER",
+    // role: "CUSTOMER",
     // userId: null,
   });
-  alert("Registration successful");
+  
 };
   
   const handleChange = (e) => {
