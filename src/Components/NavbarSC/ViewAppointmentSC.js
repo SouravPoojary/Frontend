@@ -6,12 +6,7 @@ const ViewAppointmentSC = ({ onClose }) => {
     const [appointments, setAppointments] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
 
-  // Load appointments from localStorage
-  // useEffect(() => {
-  //   const storedAppointments =
-  //     JSON.parse(localStorage.getItem("appointments")) || [];
-  //   setAppointments(storedAppointments);
-  // }, []); 
+ 
 
   useEffect(() => {
     const storedAppointments =
